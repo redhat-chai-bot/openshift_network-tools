@@ -5,16 +5,16 @@
 # This image is only for development environment, so please DO NOT DEPLOY
 # this image in any production environment.
 #
-FROM registry.ci.openshift.org/ocp/4.12:ovn-kubernetes AS ovnkube-trace
+FROM quay-proxy.ci.openshift.org/openshift/ci:ocp_4.12_ovn-kubernetes AS ovnkube-trace
 
-FROM registry.ci.openshift.org/ocp/4.12:tools AS tools
+FROM quay-proxy.ci.openshift.org/openshift/ci:ocp_4.12_tools AS tools
 
 FROM fedora:latest
 COPY --from=ovnkube-trace /usr/bin/ovnkube-trace /usr/bin/
 COPY --from=tools /usr/bin/oc /usr/bin/oc
 
 # Make sure to maintain alphabetical ordering when adding new packages.
-# bash-completion to stress-ng is copied from registry.ci.openshift.org/ocp/4.11:tools Dockerfile
+# bash-completion to stress-ng is copied from quay-proxy.ci.openshift.org/openshift/ci:ocp_4.11_tools Dockerfile
 # https://github.com/openshift/oc/blob/master/images/tools/Dockerfile
 RUN INSTALL_PKGS="\
     bash-completion \
